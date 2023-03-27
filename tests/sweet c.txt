@@ -1,0 +1,37 @@
+int, float, char, bool
+
+---------------------
+test expression:
+
+case expression :
+
+case expression :
+
+default:
+
+end test
+
+----------------
+
+not, or, and
+
+f(arg)
+end 
+
+return f(arg)
+end 
+
+------------------
+for i in list
+
+end for
+----------------
+
+* + - / 
+
+---------------
+
+
+
+
+
