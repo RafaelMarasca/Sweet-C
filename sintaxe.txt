@@ -1,0 +1,29 @@
+if expressao{} else{}
+
+select x{}
+when 4{}
+when 1,2,3{}
+otherwise{}
+
+for i : 1->10
+
+int, float, char, bool
+
+func nome(args) tipo_retorno {}
+
++ - *  /
+
+> >= < <= ==
+
+not and or
+
+# ->comentario
+
+Approximate Equality Operator: This operator could be used to compare two floating-point numbers for approximate equality, taking into account rounding errors. 
+For example, a ~== b could return true if the difference between a and b is less than a certain threshold. 
+
+Approximate Inequality Operator: This operator could be used to compare two floating-point numbers for approximate inequality, taking into account rounding errors. 
+For example, a ~!= b could return true if the difference between a and b is greater than a certain threshold.
+
+Function Composition Operator: This operator could be used to compose two functions together. For example, 
+f ∘ g could return a new function that applies g to its input, and then applies f to the output of g.
