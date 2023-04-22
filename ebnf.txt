@@ -63,4 +63,4 @@
 
 <compound-operator> ::= <identifier> @ <identifier> '(' ')'
 
-<identifier> ::= (<w> | '_' ) {(<digit>|<letter>)}
+<identifier> ::= (<w> | '_' ) {(<digit>|<letter>|'_')}
