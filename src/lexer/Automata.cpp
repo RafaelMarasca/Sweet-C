@@ -1,87 +1,86 @@
+/**
+ * @file automata.cpp
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2023-04-23
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #include "Automata.h"
-#include "SymbolTable.h"
-#include <iostream>
 
-
-
-
-int main()
+namespace Automata
 {
-    // SymbolTable s;
-    
-    // Symbol sym [] = {Symbol("rafael","global", TK_ID),
-    //                 Symbol("renatinho","global", TK_ID),
-    //                 Symbol("422","global", TK_NUM),
-    //                 Symbol(">=","global", TK_RELOP),
-    //                 };
+    FDA::FDA(std::string initial_state, std::vector<std::string> accepting_states)
+    {
+        _initial_state = initial_state;
+        _current_state = initial_state;
 
-    // for(int i = 0; i< sizeof(sym)/sizeof(Symbol); i++)
-    // {
-    //     s.addSymbol(sym[i]);
-    // }
-    // std::cout<<s;
+        for(auto s = accepting_states.begin(); s != accepting_states.end(); s++)
+        {
+            _accepting_states.insert(*s);
+        }
+    }
 
-    // std::vector<std::string>s {"s2","s4"};
-    // FDA automato("s1", s);
-    // automato.addTransition("s1", '0', "s2");
-    // automato.addTransition("s1", '1', "s2");
-    // automato.addTransition("s1", '2', "s2");
-    // automato.addTransition("s1", '3', "s2");
-    // automato.addTransition("s1", '4', "s2");
-    // automato.addTransition("s1", '5', "s2");
-    // automato.addTransition("s1", '6', "s2");
-    // automato.addTransition("s1", '7', "s2");
-    // automato.addTransition("s1", '8', "s2");
-    // automato.addTransition("s1", '9', "s2");
+    FDA::~FDA(){}
 
-    // automato.addTransition("s2", '0', "s2");
-    // automato.addTransition("s2", '1', "s2");
-    // automato.addTransition("s2", '2', "s2");
-    // automato.addTransition("s2", '3', "s2");
-    // automato.addTransition("s2", '4', "s2");
-    // automato.addTransition("s2", '5', "s2");
-    // automato.addTransition("s2", '6', "s2");
-    // automato.addTransition("s2", '7', "s2");
-    // automato.addTransition("s2", '8', "s2");
-    // automato.addTransition("s2", '9', "s2");
+    void FDA::addTransition(std::string source, char action, std::string destination)
+    {
+        if(_transition_table.find(source) == _transition_table.end())
+            _transition_table[source] = std::unordered_map<char, std::string>();
+        
 
-    // automato.addTransition("s2", '.', "s3");
+        _transition_table[source][action] = destination;
+    }
+
+    void FDA::addTransition(transition_t t)
+    {
+        
+        if(t.action[1] > t.action[0])
+        {
+            for(unsigned char action = t.action[0]; action <= t.action[1]; action++)
+                addTransition(t.source, action, t.destination);
+        }else
+        {
+            addTransition(t.source, t.action[0], t.destination);
+        }        
+    }
 
 
-    // automato.addTransition("s3", '0', "s4");
-    // automato.addTransition("s3", '1', "s4");
-    // automato.addTransition("s3", '2', "s4");
-    // automato.addTransition("s3", '3', "s4");
-    // automato.addTransition("s3", '4', "s4");
-    // automato.addTransition("s3", '5', "s4");
-    // automato.addTransition("s3", '6', "s4");
-    // automato.addTransition("s3", '7', "s4");
-    // automato.addTransition("s3", '8', "s4");
-    // automato.addTransition("s3", '9', "s4");
+    bool FDA::isAccepted(std::string input)
+    {
+        transition_info_t step_info = {false, false, ""}; 
+        _current_state = _initial_state;
+
+        for(auto ch : input)
+        {
+            step_info = step(ch);
+
+            if(!step_info.is_valid)
+                return false;
+        }
+
+        return step_info.is_accepting;
+    }
+
+    transition_info_t FDA::step(char action)
+    {
+        transition_info_t step_info{false,false, ""};
+
+        if(_transition_table[_current_state].find(action) != _transition_table[_current_state].end())
+        {
+            _current_state = _transition_table[_current_state][action];
+            step_info.is_valid = true;
+            step_info.state = _current_state;
+
+            if(_accepting_states.find(_current_state) != _accepting_states.end())
+                step_info.is_accepting = true;
+        }
+
+        return step_info;
+    }
+} // namespace Automata
 
 
-    // automato.addTransition("s4", '0', "s4");
-    // automato.addTransition("s4", '1', "s4");
-    // automato.addTransition("s4", '2', "s4");
-    // automato.addTransition("s4", '3', "s4");
-    // automato.addTransition("s4", '4', "s4");
-    // automato.addTransition("s4", '5', "s4");
-    // automato.addTransition("s4", '6', "s4");
-    // automato.addTransition("s4", '7', "s4");
-    // automato.addTransition("s4", '8', "s4");
-    // automato.addTransition("s4", '9', "s4");
-
-
-    // std::string input = "4222.3"; 
-
-    // for(auto &ch : input)
-    // {
-    //     auto t = automato.step(ch);
-    //     std::cout << t.state <<" "<<t.is_accepting <<" "<<t.is_valid<<std::endl;
-    // }
-
-    // std::cout<< automato.isAccepted("42.3") << std::endl;
-    // std::cout<< automato.isAccepted("423") << std::endl;
-    // std::cout<< automato.isAccepted("42.3r") << std::endl;
-
-}
