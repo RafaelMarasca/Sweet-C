@@ -1,4 +1,4 @@
-int main(){
+func main() int{
 #123
 #44445.44
 	int a = 9;
