@@ -1,0 +1,72 @@
+first(<program>)  = {TK_TYPE, TK_FUNC}
+first(<program'>) = {ε, TK_TYPE}
+
+first(<func>)  = {TK_FUNC}
+first(<func'>) = {ε, TK_FUNC}
+
+first(<func_specifier>) = {TK_FUNC}
+
+first(<arg_list>)  = {ε, TK_TYPE}
+first(<arg_list'>) = {ε, TK_COMMA}
+
+first(<scope_block>)  = {TK_START_SCOPE}
+first(<scope_block'>) = {ε, TK_TYPE, TK_FOR, TK_SELECT, TK_ID, TK_ARITH, TK_LOGOP, TK_WHOLE, TK_FRAC, TK_CHAR, TK_LOGVAL, TK_RETURN, TK_WHEN, TK_OTHERWISE}
+
+first(<code_block>) = {TK_TYPE, TK_FOR, TK_SELECT, TK_ID, TK_ARITH, TK_LOGOP, TK_WHOLE, TK_FRAC, TK_CHAR, TK_LOGVAL, TK_RETURN, TK_WHEN, TK_OTHERWISE}
+
+first(<de>) = {TK_TYPE}
+
+first(<finition>) = {ε, TK_ASSIGNMENT}
+
+first(<statement>) = {TK_FOR, TK_SELECT, TK_ID, TK_ARITH, TK_LOGOP, TK_WHOLE, TK_FRAC, TK_CHAR, TK_LOGVAL, TK_RETURN, TK_WHEN, TK_OTHERWISE}
+
+
+first(<type>) = {TK_TYPE}
+
+first(<expression>) = {TK_ID, TK_ARITH, TK_LOGOP, TK_WHOLE, TK_FRAC, TK_CHAR, TK_LOGVAL}
+
+first(<lhs>) = {TK_ID, TK_ARITH, TK_LOGOP, TK_WHOLE, TK_FRAC, TK_CHAR, TK_LOGVAL}
+
+first(<eq>) = {TK_ASSIGNMENT, TK_ARITH, TK_LOGOP, TK_RELOP}
+
+first(<operator>) = {TK_ARITH, TK_RELOP, TK_LOGOP}
+
+first(<rhs>) = {TK_ID, TK_ARITH, TK_LOGOP, TK_WHOLE, TK_FRAC, TK_CHAR, TK_LOGVAL} 
+
+first(<rhs'>) = {TK_ARITH, TK_LOGOP, TK_RELOP}
+
+first(<iteration_statement>) = {TK_FOR}
+
+first(<condition_statement>) = {TK_SELECT}
+
+first(<select_statement>)  = {TK_WHEN, TK_OTHERWISE}
+first(<select_statement'>) = {ε, TK_COMMA}
+
+first(<return_statement>) = {TK_RETURN}
+first(<return_statement>) = {TK_ID, TK_ARITH, TK_LOGOP, TK_WHOLE, TK_FRAC, TK_CHAR, TK_ARITH, TK_LOGVAL}
+
+first(<value>) = {TK_ID, TK_ARITH, TK_LOGOP, TK_WHOLE, TK_FRAC, TK_CHAR TK_ARITH, TK_LOGVAL}
+
+first(<value'>) = {TK_ID, TK_WHOLE, TK_FRAC, TK_CHAR TK_ARITH, TK_LOGVAL}
+
+first(<var_value>) = {TK_ID}
+
+first(<con_value>) = {TK_WHOLE, TK_FRAC, TK_CHAR, TK_LOGVAL}
+
+first(<constant>) = {TK_WHOLE, TK_FRAC, TK_CHAR, TK_LOGVAL}
+
+first(<int_con>) = {TK_WHOLE}
+
+first(<float_con>) = {TK_FRAC}
+
+first(<char_con>) = {TK_CHAR}
+
+first(<bool_con>) = {TK_LOGVAL}
+
+first(<arith>) = {TK_ARITH}
+
+first(<relational>) = {TK_RELOP}
+
+first(<logic>) = {TK_LOGOP}
+
+first(<identifier>) = {TK_ID}

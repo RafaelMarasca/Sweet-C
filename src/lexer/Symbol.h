@@ -44,6 +44,7 @@ enum token_type_t
     TK_ASSIGNMENT,
     TK_CHAR,
     TK_INVALID,
+    TK_RETURN,
     TK_EOF
 };
 
@@ -99,10 +100,11 @@ static std::string token_to_string(token_type_t tk)
         case TK_SEMICOLON: return "TK_SEMICOLON";
         case TK_COLON: return "TK_COLON";
         case TK_COMMA: return "TK_COMMA";
-        case TK_ASSIGNMENT: return "TK_ASSSIGNMENT";
+        case TK_ASSIGNMENT: return "TK_ASSIGNMENT";
         case TK_CHAR: return "TK_CHAR";
         case TK_INVALID: return "TK_INVALID";
-        case TK_EOF: return "TK_EOF";
+        case TK_RETURN: return "TK_RETURN";
+        case TK_EOF: return "$";
     }
     return "";
 }

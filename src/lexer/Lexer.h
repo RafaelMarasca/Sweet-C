@@ -59,7 +59,7 @@
                                  {"FRAC", {TK_FRAC, NULL, ""}},\
                                  {"ID", {TK_ID, NULL, ""}},\
                                  {"WHITE_SPACE", {TK_WHITE, NULL, ""}},\
-                                 {"PLUSS_SIGN", {TK_ARITH, NULL, "PLUS"}},\
+                                 {"PLUS_SIGN", {TK_ARITH, NULL, "PLUS"}},\
                                  {"MINUS_SIGN", {TK_ARITH, NULL, "MINUS"}},\
                                  {"MULT_SIGN", {TK_ARITH, NULL, "MULT"}},\
                                  {"DIV_SIGN", {TK_ARITH, NULL, "DIV"}},\
@@ -100,6 +100,7 @@
                   {"float", {TK_TYPE, NULL, "FLOAT"}},\
                   {"char", {TK_TYPE, NULL, "CHAR"}},\
                   {"bool", {TK_TYPE, NULL, "BOOL"}},\
+                  {"return", {TK_RETURN, NULL, ""}},\
                   {"for", {TK_FOR, NULL, ""}}}
 
 //const static std::vector<Automata::transition_t> transitions = {

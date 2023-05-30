@@ -1,0 +1,104 @@
+<program> 	::= <program'> <func> <func'>
+
+<program'> 	::= <de> <program'> 
+		  | $
+		    
+<func>		::= <func_specifier> <indentifier> TK_LPAR <arg_list> TK_RPAR <type> <scope_block>
+
+<func'>		::= <func> <func'> 
+		  | $ 
+
+<func_specifier>::= TK_FUNC
+
+<arg_list> 	::= <de> <arg_list'>
+		  | $
+
+<arg_list'>	::= TK_COMMA <de> <arg_list'> 
+		  | $
+
+<scope_block>	::= TK_START_SCOPE <scope_block'> TK_END_SCOPE
+
+<scope_block'>	::= <code_block> <scope_block'>
+		  | $
+
+<code_block> 	::= <de> 
+		  | <statement> 
+		  
+<de>		::= <type> TK_ID <finition> TK_SEMICOLON
+		  
+<finition>	::= TK_ASSIGNMENT <value> <rhs>
+ 		  | $
+ 		 
+<statement>	::= <iteration_statement> TK_SEMICOLON
+		  | <condition_statement> TK_SEMICOLON
+		  | <expression> TK_SEMICOLON
+		  | <return_statement> TK_SEMICOLON
+		  | <select_statement> TK_SEMICOLON
+		  
+<type>		::= TK_TYPE
+		  
+<expression> 	::= <lhs> <rhs>
+
+<lhs>		::= <var_value> <eq>
+		  | <con_value> <operator>
+		  
+<eq>		::= TK_ASSIGNMENT
+		  | <operator>
+		  
+<rhs>		::= <con_value> <rhs'>
+		  | <var_value> <rhs'>
+
+<rhs'>		::= <operator> <rhs>
+		  | $
+		  
+<operator>	::= <arith>
+		  | <logic>
+		  | <relational>  
+		  
+<condition_statement> ::= TK_SELECT <var_value> <scope_block>
+
+<select_statement>  ::= TK_WHEN <value>  <select_statement'> <scope_block>
+		      | TK_OTHERWISE <scope_block>
+		      
+<select_statement'> ::= TK_COMMA <expression> <select_statement'>
+		      | $
+
+<iteration_statement> ::= TK_FOR <identifier> TK_COLON <value> TK_ARROW <value> <scope_block>
+
+<return_statement>  ::= TK_RETURN <return_statement'>
+
+<return_statement'> ::= <value> <return_statement'>
+		      | $
+		   
+		  
+<value>		::= TK_ARITH <value'>
+		  | TK_LOGOP <value'>
+		  | <value'>
+		  
+<value'> 	::= <var_value>
+		  | <con_value>	   
+	   
+<var_value>	::= <identifier>
+	
+<con_value>	::= <constant>
+		  
+<constant> 	::= <int_con>
+		  | <float_con>
+		  | <char_con>
+		  | <bool_con>
+
+<int_con>	::= TK_WHOLE
+
+<float_con>	::= TK_FRAC
+
+<char_con>	::= TK_CHAR
+
+<bool_con>	::= TK_LOGVAL
+
+<arith>		::= TK_ARITH
+
+<relational>	::= TK_RELOP
+
+<logic>		::= TK_LOGOP
+
+<identifier> 	::= TK_ID

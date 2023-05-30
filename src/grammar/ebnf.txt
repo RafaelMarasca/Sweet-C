@@ -1,0 +1,66 @@
+<program> ::= [{<declaration>}]<func>{<func>}  
+
+<func> ::= <func_specifier> <indentifier> '(' <arg_list> ')' <type> <scope_block> 
+
+<func_specifier> ::= 'func'
+
+<arg_list> ::= <declaration> { ',' <declaration>}
+
+<scope_block> ::= '{' {<code_block>} '}'
+
+<code_block> ::= (<declaration> | <definition> | <statement>)[code_block]
+
+<declaration> ::= <type> <identifier> ';'
+
+<definition> ::= <type> <assigment_expr>
+
+<statement> ::= <iteration_statement> | <condition_statement> | <assignment_expr> | <expression> | <return_statement>  | <select_statement> ';'
+
+<type> ::= int | char | float | bull 
+
+<expression> ::= <arith_expr>  | <logic_expr> | <relational_expr> | <value> | <expression> | <compound-operator>
+
+<assignment_expr> ::= <identifier> '=' <expression>
+
+<arith_expr> ::= <expression> <arith> <expression>  
+
+<logic_expr> ::= <expression> <logic> <expression> | <logic> <expression>
+
+<relational_expr> ::= <expresion> <relational> <expression> 
+
+<condition_statement> ::= 'select' <expression> <scope_block>
+
+<select_statement> ::= 'when' <expression> {[',' <expression>]} <scope_block> |
+                        'otherwise' <scope_bock>
+
+<iteration_statement> ::= 'for' (<identifier> | <definition>) ':' <expression> '->' <expression> <scope_block>
+
+<return_statement> ::= 'return' {<value>}
+
+<value> ::= [- | 'not'] (<identifier> | <constant>)
+
+<constant> ::= <int_con> | <float_con> | <char_con> | <bull_con>
+
+<int_con> ::= <digit>{<digit>}
+
+<char_con> ::= '''<ascii>'''
+
+<float_con> ::= <int_con> '.' <int_con>
+
+<bull_con> ::= 'True' | 'False'
+
+<arith> ::= '+' | '-' | '*' | '/'
+
+<relational> ::= '==' | '!=' | '>' | '>=' | '<' | '<=' | '~==' | '~!=' 
+
+<logic> ::=  'and' | 'or' | 'xor' | 'not'
+
+<digit> ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' 
+
+<ascii> ::= 'c' (*onde c denota qualquer ASCII printável*)
+
+<letter> ::= A|...|Z|a|...|z
+
+<compound-operator> ::= <identifier> @ <identifier> '(' ')'
+
+<identifier> ::= (<letter> | '_' ) {(<digit>|<letter>|'_')}

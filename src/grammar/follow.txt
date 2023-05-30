@@ -1,0 +1,77 @@
+follow(<program>) = {$}
+
+follow(<program'>) = {first(<func>)}
+
+follow(<func>) = {$, first(<func'>)}
+
+follow(<func'>) = {$}
+
+follow(<func_specifier>) = {first(<identifier>)}
+
+follow(<arg_list>) = {TK_RPAR}
+
+follow(<arg_list'>) = {TK_RPAR}
+
+follow(<scope_block>) = {$}
+
+follow(<scope_block'>) = {TK_END_SCOPE}
+
+follow(<code_block>) = {first(<scope_block'>)}
+
+follow(<de>) = {first(<arg_list'>), first(<program'>), first(<scope_block'>)}
+
+follow(<finition>) = {TK_SEMICOLON}
+
+follow(<statement>) = {first(<code_block'>)}
+
+follow(<type>) = {TK_ID, first(<scope_block>)}
+
+follow(<expression>) = {first(<select_statement'>), TK_ARROW, TK_SEMICOLON}
+
+follow(<lhs>) = {first(<rhs>)}
+
+follow(<eq>) = {follow(<lhs>)}
+
+follow(<rhs>) = {TK_SEMICOLON}
+
+follow(<rhs'>) = {follow(<rhs>)}
+
+follow(<operator>) = {follow(<lhs>), first(<rhs>)}
+
+follow(<condition_statement>) = {TK_SEMICOLON}
+
+follow(<select_statement>) = {TK_SEMICOLON}
+
+follow(<select_statement'>) = {first(<scope_block>)}
+
+follow(<iteration_statement>) = {TK_SEMICOLON}
+
+follow(<return_statement>) = {TK_SEMICOLON}
+
+follow(<return_statement'>) = {ε, TK_SEMICOLON}
+
+follow(<value>) = {first(<rhs>), first(<scope_block>), first(<return_statement'>)}
+
+follow(<value'>) = {follow(<value>)}
+
+follow(<var_value>) = {follow(<value'>)}
+
+follow(<con_value>) = {follow(<value'>)}
+
+follow(<constant>) = {follow(<con_value>)}
+
+follow(<int_con>) = {follow(<constant>)}
+
+follow(<float_con>) = {follow(<constant>)}
+
+follow(<char_con>) = {follow(<constant>)}
+
+follow(<bool_con>) = {follow(<constant>)}
+
+follow(<arith>) = {follow(<operator>)}
+
+follow(<relational>) = {follow(<operator>)}
+
+follow(<logic>) = {follow(<operator>)}
+
+follow(<identifier>) = {TK_LPAR, follow(<var_value>)}
