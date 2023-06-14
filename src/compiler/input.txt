@@ -4,15 +4,13 @@ func main() int{
 	int a = 9;
 	int b = a + 1;
 	bool c = a and b;
-
-	select a
-		when b
+	select a{
+		when b{
 			a = 3;
 		};
-		otherwise
+		otherwise{
 			a = 5;
 		};
 	};
-
 	return 0;
 }
