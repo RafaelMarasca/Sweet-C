@@ -137,11 +137,12 @@ std::vector<token_t> Lexer::getTokenString()
                 if(_keywords.find(lexeme) != _keywords.end())
                 {
                     tk = _keywords[lexeme];
-                }else
-                {
-                    Symbol s (lexeme, "global", tk.token_type);
-                    tk.table_pointer = _symbol_table.addSymbol(s);
-                }  
+                }
+                // }else
+                // {
+                //     Symbol s (lexeme, "global", tk.token_type);
+                //     tk.table_pointer = _symbol_table.addSymbol(s);
+                // }  
             }else if(tk.token_type == TK_WHOLE || tk.token_type == TK_FRAC || tk.token_type == TK_LOGVAL)
             {
                 tk.value = lexeme;
@@ -162,6 +163,7 @@ std::vector<token_t> Lexer::getTokenString()
             last_valid_index = -1; 
         }
     }
+    
     token_t endtk;
     endtk.token_type = TK_EOF;
     endtk.line = _current_line;
