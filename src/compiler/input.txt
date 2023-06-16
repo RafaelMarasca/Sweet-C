@@ -1,6 +1,7 @@
 func main() int{
 #123
 #44445.44
+
 	int a = 9;
 	int b = a + 1;
 	bool c = a and b;

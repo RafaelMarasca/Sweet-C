@@ -11,26 +11,28 @@ int main(int argc, char **argv)
 		return 0;
 	}
 	
-	/*
+	
 	Lexer l(argv[1]);
-
-	bool isLexicallyAccepted = l.scan();
-	
 	LL1 prs;
-	if(isLexicallyAccepted)
+
+	try
 	{
-		prs.parse("lexer_output.txt");
+		std::vector<token_t> token_str = l.getTokenString();
+		
+		if(!token_str.empty())
+		{
+			prs.parse(token_str);
+		}
+	
 	}
-	*/
+	catch(LexicalException err)
+	{
+		std::cout<<err.what()<<std::endl;
+		return -1;
+	}
 	
-	Node *tree = new Node({"foo", "bar"});
-	tree->insert({"filho1", "aaaaa"});
-	tree->_children[0]->insert({"filho do filho 1", "aaaa"});
-	tree->insert({"filho2", "aaaaa"});
-	tree->insert({"filho3", "aaaaa"});
-	tree->insert({"filho4", "aaaaa"});
 	
-	delete tree;
+	std::cout<<"Compiled Successfully!"<<std::endl;
 
 	return 0;
 }

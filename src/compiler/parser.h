@@ -8,6 +8,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include "Symbol.h"
 
 #include <iostream>
 
@@ -21,23 +22,34 @@ class Node
 	
     public:
 	std::vector<Node*> _children;
+	int _cur_child;
+    	Node *_father;
     
-	Node(std::pair<std::string, std::string> val)
+	Node(std::pair<std::string, std::string> val, Node *father)
 	{
+		_cur_child = 0;
+
+		this->_father = father;
 		this->_value = val;
+	}
+	
+	void printdel()
+	{
+		std::cout<<"deletando: "<<this->_value.first<<std::endl;
 	}
 	
 	~Node()
 	{
+		//printdel();
 		for(auto n : this->_children)
 		{	
 			delete n;
 		} 
 	}
 	
-	void insert(std::pair<std::string, std::string> val)
+	void insert(std::pair<std::string, std::string> val, Node *father)
 	{
-		Node *child = new Node(val);
+		Node *child = new Node(val, father);
 		this->_children.push_back(child);	
 	}
 	
@@ -54,9 +66,10 @@ class LL1
         static std::unordered_map<std::string, std::vector<std::string>> _parse_table_sync;
         static std::unordered_map<std::string, std::string> _parse_table_error;
         
+        Node* _parse_tree;
         std::stack<std::string> _parse_stack;
         std::vector<std::string> _input_vec;
-        std::vector<std::pair<std::string, std::string>> _input_pos;
+        std::vector<std::pair<int, int>> _input_pos;
         std::vector<std::string> _input_val;
         
         std::ifstream _src;
@@ -66,7 +79,7 @@ class LL1
         LL1();
         ~LL1();
 
-        bool parse(std::string src);
+        bool parse(std::vector<token_t> );
 };
 
 #endif

@@ -16,8 +16,9 @@ LL1::LL1()
 	//initialize parse stack and vector
 	_parse_stack = std::stack<std::string>();
 	_input_vec = std::vector<std::string>();
-	_input_pos = std::vector<std::pair<std::string, std::string>>();
+	_input_pos = std::vector<std::pair<int, int>>();
 	_input_val = std::vector<std::string>();
+	_parse_tree = nullptr;
 
 	//push end of string token
 	_parse_stack.push("$");
@@ -25,66 +26,26 @@ LL1::LL1()
 
 LL1::~LL1()
 {
-    
+    if(_parse_tree)
+    	delete _parse_tree;
 }
 
-bool LL1::parse(std::string src)
+bool LL1::parse(std::vector<token_t> token_str)
 {
-	_src.open(src);
-
-	std::string s1;
-
-	while(std::getline(_src, s1))
+	for(auto tk : token_str)
 	{
-		std::string tokStr = "";
-		std::string lineStr = "";
-		std::string colStr = "";
-	
-		bool line = false;
-		bool col = false;
-		
-		for(auto c : s1)
-		{
-			if(c == '@')
-			{
-				line = true;
-				continue;
-			}
-			if(c == '|')
-			{
-				line = false;
-				col = true;
-				continue;
-			}
-			if(c == '\t')
-			{
-				col = false;
-				continue;
-			}
-			
-			if(line)
-			{
-				lineStr += c;
-				continue;
-			}
-			if(col)
-			{
-				colStr += c;
-				continue;
-			}
-			
-			if(c == ',')
-				break;
-			if(c != '<' && c != ' ')
-				tokStr += c;
-		}
-		_input_vec.push_back(tokStr);
-		_input_pos.push_back({lineStr, colStr});
+		_input_vec.push_back(token_to_string(tk.token_type));
+		_input_pos.push_back({tk.line, tk.column});
 	}
-	_src.close();  
-
+	
+	//for(auto c : _input_vec)
+	//	std::cout<<c<<std::endl;
+	
+	
 	//push starting nonterminal into the parsing stack
 	_parse_stack.push("<program>");
+	_parse_tree = new Node({"<program>", ""}, _parse_tree);
+	Node *aux_next_node = _parse_tree;
 	
 	int input_pos = 0;
 	bool parse_success = true;
@@ -101,7 +62,12 @@ bool LL1::parse(std::string src)
 			if(_parse_stack.top() == _input_vec[input_pos])
 			{
 				_parse_stack.pop();
-
+				
+				if(aux_next_node)
+				{
+					aux_next_node = aux_next_node->_father;
+				}
+				
 				if(input_pos < _input_vec.size())
 					input_pos++;
 			}
@@ -111,6 +77,15 @@ bool LL1::parse(std::string src)
 				parse_success = false;
 				std::cout<<"Syntax error: missing '"<<_parse_stack.top()<<"' before L:"<<_input_pos[input_pos].first<<" C:"<<_input_pos[input_pos].second<<"."<<std::endl;
 				_parse_stack.pop();
+				
+				if(aux_next_node && !aux_next_node->_children.empty() && aux_next_node->_children.size() > aux_next_node->_cur_child+1)
+				{
+					aux_next_node = aux_next_node->_children[++aux_next_node->_cur_child];
+				}
+				else
+				{
+					aux_next_node = aux_next_node->_father;
+				}
 			}
 		}
 		//if derivation is valid
@@ -143,7 +118,7 @@ bool LL1::parse(std::string src)
 			fileOutput<<_parse_stack.top()<<"::="<<_parse_table[_parse_stack.top()][_input_vec[input_pos]]<<std::endl;
 						
 			//pop current non-terminal
-			_parse_stack.pop();
+			_parse_stack.pop();			
 			
 			//push derivation into the parse stack
 			for(std::vector<std::string>::reverse_iterator i = aux_vec.rbegin(); i != aux_vec.rend(); i++)			
@@ -151,6 +126,24 @@ bool LL1::parse(std::string src)
 				_parse_stack.push(*i);
 			}
 			
+			//insert derivation into the parse tree
+			if(aux_next_node)
+			{
+				for(auto d : aux_vec)
+				{
+					aux_next_node->insert({d, ""}, aux_next_node);
+				}
+			}
+			
+			//next step on parse tree or go back to parent
+			if(aux_next_node && !aux_next_node->_children.empty() && aux_next_node->_children.size() > aux_next_node->_cur_child)
+			{
+				aux_next_node = aux_next_node->_children[aux_next_node->_cur_child++];
+			}
+			else
+			{
+				aux_next_node = aux_next_node->_father;
+			}
 	
 		}
 		// Error detected
@@ -177,6 +170,15 @@ bool LL1::parse(std::string src)
 			}
 			std::string aux = _parse_stack.top();
 			_parse_stack.pop();
+			
+			if(aux_next_node && !aux_next_node->_children.empty() && aux_next_node->_children.size() > aux_next_node->_cur_child+1)
+			{
+				aux_next_node = aux_next_node->_children[++aux_next_node->_cur_child];
+			}
+			else
+			{
+				aux_next_node = aux_next_node->_father;
+			}
 			
 			if(aux == "<scope_block>")
 			{

@@ -133,17 +133,18 @@ struct token_t
     token_type_t token_type;
     Symbol* table_pointer;
     std::string value;
+    int column;
+    int line;
 
     friend std::ostream & operator << (std::ostream &out, const token_t &t)
     {
         if(t.table_pointer != NULL)
-            out << "< " << token_to_string(t.token_type) << ", " << t.table_pointer << " >" << std::endl;
+            out << "@ " << t.line << ":" << t.column << "  <" << token_to_string(t.token_type) << ", " << t.table_pointer << ">" << std::endl;
         else
-            out<< "< " << token_to_string(t.token_type) << ", " << t.value << " >" << std::endl;
+            out<< "@ " << t.line << ":" << t.column<< "  <" << token_to_string(t.token_type) << ", " << t.value << ">" << std::endl;
         return out;
     }
 };
-
 
 class SymbolTable
 {

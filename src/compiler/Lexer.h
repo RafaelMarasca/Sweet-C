@@ -191,9 +191,7 @@ class Lexer
 
         bool update_buffer();
         
-        token_t getNextToken();
-        
-        bool scan();
+        std::vector<token_t> getTokenString();
 };
 
 #endif //LEXER_H_
