@@ -11,7 +11,7 @@ int main(int argc, char **argv)
 		return 0;
 	}
 	
-	
+	bool comp = false;
 	Lexer l(argv[1]);
 	LL1 prs;
 
@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 		
 		if(!token_str.empty())
 		{
-			prs.parse(token_str);
+			comp = prs.parse(token_str);
 		}
 	
 	}
@@ -32,7 +32,8 @@ int main(int argc, char **argv)
 	}
 	
 	
-	std::cout<<"Compiled Successfully!"<<std::endl;
+	if(comp)
+		std::cout<<"Compiled Successfully!"<<std::endl;
 
 	return 0;
 }
