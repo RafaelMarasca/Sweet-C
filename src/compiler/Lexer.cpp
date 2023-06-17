@@ -137,6 +137,8 @@ std::vector<token_t> Lexer::getTokenString()
                 if(_keywords.find(lexeme) != _keywords.end())
                 {
                     tk = _keywords[lexeme];
+                }else{
+                    tk.value = lexeme;
                 }
                 // }else
                 // {
