@@ -26,10 +26,12 @@ int main(int argc, char **argv)
 		{
 			d_tree = prs.parse(token_str);
 		
-			Semantic_analyzer sem(d_tree);
-			
-			sem.tree_traverse();
-		
+			if(d_tree)
+			{
+				Semantic_analyzer sem(d_tree);
+				
+				sem.tree_traverse();
+			}
 		}
 	
 	}
@@ -38,10 +40,6 @@ int main(int argc, char **argv)
 		std::cout<<err.what()<<std::endl;
 		return -1;
 	}
-	
-	
-	//if(d_tree)
-	//	std::cout<<"Compiled Successfully!"<<std::endl;
 
 	return 0;
 }

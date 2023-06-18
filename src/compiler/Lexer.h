@@ -155,7 +155,7 @@
 {"ASSIGNMENT", {'='}, "EQUAL"},\
 {"GREATER", {'='}, "GREATER_EQUAL"},\
 {"LESS", {'='}, "LESS_EQUAL"},\
-{"MINUS_SIGN", {">"}, "ARROW"},\
+{"MINUS_SIGN", {'>'}, "ARROW"},\
 {"s0", {'#'}, "COMMENT"}}
 
 class LexicalException : public std::exception

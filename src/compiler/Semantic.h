@@ -15,6 +15,7 @@ class Semantic_analyzer{
 		void check_func(Node *no);
 		bool check_arglist(Node *no);
 		bool check_return(Node *no);
+		bool check_expr(Node *no);
 		bool find_var(Node *no);
 		
 		

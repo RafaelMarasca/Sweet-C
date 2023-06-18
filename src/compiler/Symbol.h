@@ -124,6 +124,7 @@ class Symbol
         ~Symbol(){};
 
         std::string get_lexeme(){return _lexeme;};
+        std::string get_lexeme_type(){return _lexeme_type;};
 
         operator std::string() const {return std::string({std::string("<") + std::to_string(int(_token_type)) + std::string(",") + _lexeme  + std::string(",") + _lexeme_type + std::string(">")}); } 
 };  
@@ -155,14 +156,14 @@ class SymbolTable
         
         SymbolTable(){};
         
-        ~SymbolTable(){
-        	/*for(auto it = _table.begin(); it != _table.end(); it++)
-        	{ 
-        		delete it->second;
-        		it = _table.erase(it);
-        	}*/
-        };
-
+        ~SymbolTable()
+	{
+		/*for (const auto& entry : _table)
+		{
+			delete entry.second;
+		}
+		_table.clear();*/
+	}
         Symbol* addSymbol(Symbol& s)
         {
             if(_table.find(s.get_lexeme()) == _table.end())
@@ -176,6 +177,16 @@ class SymbolTable
         bool getSymbol(std::string lex)
         {
         	return _table.find(lex) != _table.end();
+        }
+        
+        std::string getType(std::string lex)
+        {
+        	if(_table.find(lex) != _table.end())
+        	{
+        		return _table[lex]->get_lexeme_type();
+        	}
+        
+        	return "";
         }
 
         friend std::ostream & operator << (std::ostream &out, const SymbolTable &s)

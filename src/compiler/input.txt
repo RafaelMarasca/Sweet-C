@@ -1,4 +1,4 @@
-func main( int a; ) int{
+func main( int a; int b; int c; int d; ) int{
 #123
 #44445.44
 	int a = 9;
@@ -6,16 +6,20 @@ func main( int a; ) int{
 	bool c = a and b;
 	char d;
 	
+	bool k = a;
+	bool p = h;
+	
 	char d;
 	bool c = 1;
-	
+	k = 0;
 	
 	select a{
 		when b{
-			a = 3;
+			a = b + 3;
 		};
 		otherwise{
 			a = 5;
+			a = 6 + true + j;
 		};
 	};
 	return 0;
