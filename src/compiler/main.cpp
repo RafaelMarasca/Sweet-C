@@ -16,7 +16,7 @@ int main(int argc, char **argv)
 	Node *d_tree = nullptr;
 	Lexer l(argv[1]);
 	LL1 prs;
-	
+	bool notsemerror = true;
 
 	try
 	{
@@ -24,13 +24,19 @@ int main(int argc, char **argv)
 		
 		if(!token_str.empty())
 		{
+			std::ofstream fileOutput("lexer_output.txt");
+			for(auto &to : token_str)
+			{
+				fileOutput<<to<<std::endl;
+			}
+			
 			d_tree = prs.parse(token_str);
 		
 			if(d_tree)
 			{
 				Semantic_analyzer sem(d_tree);
 				
-				sem.tree_traverse();
+				notsemerror = sem.tree_traverse();
 			}
 		}
 	
@@ -39,6 +45,11 @@ int main(int argc, char **argv)
 	{
 		std::cout<<err.what()<<std::endl;
 		return -1;
+	}
+	
+	if(d_tree && notsemerror)
+	{
+		std::cout<<"Compiled successfully!"<<std::endl;
 	}
 
 	return 0;

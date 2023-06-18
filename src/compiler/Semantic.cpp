@@ -372,14 +372,13 @@ bool Semantic_analyzer::preorder(Node *cur_node)
 		}
 		else if(cur_node->_value.first == "<return_statement>")
 		{
-			this->check_return(cur_node);
-			return 1;
+			return this->check_return(cur_node);
 		}
 		
 		for(auto &c : cur_node->_children)
 		{
 			if(this->preorder(c) == 0)
-				break;	
+				return 0;	
 		}
 	}
 	
