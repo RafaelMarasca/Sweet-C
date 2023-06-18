@@ -3,6 +3,7 @@
 #include "Semantic.h"
 
 #include <iostream>
+#include <regex>
 
 
 int main(int argc, char **argv)
@@ -11,6 +12,26 @@ int main(int argc, char **argv)
 	{
 		std::cout<<"Invalid number of arguments!"<<std::endl;
 		return 0;
+	}
+	
+	std::string extension = "";
+	bool findot = false;
+	for(auto c : std::string(argv[1]))
+	{
+		if(c == '.')
+		{
+			findot = true;
+			continue;
+		}
+		if(findot)
+		{
+			extension += c;
+		}
+	}
+	if(extension != "swt")
+	{
+		std::cout<<"Invalid file extension '."<<extension<<"'"<<std::endl;
+		return -1;
 	}
 	
 	Node *d_tree = nullptr;
