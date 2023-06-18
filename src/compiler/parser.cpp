@@ -50,7 +50,7 @@ Node* LL1::parse(std::vector<token_t> token_str)
 	
 	int input_pos = 0;
 	bool parse_success = true;
-	std::ofstream fileOutput("parser_output.txt");
+	//std::ofstream fileOutput("parser_output.txt");
 	while(_parse_stack.top() != "$" || _input_vec[input_pos] != "$")
 	{
 		std::vector<std::string> aux_vec;
@@ -127,7 +127,7 @@ Node* LL1::parse(std::vector<token_t> token_str)
 				aux_vec.push_back(aux_string);
 			
 			//print derivation
-			fileOutput<<_parse_stack.top()<<"::="<<_parse_table[_parse_stack.top()][_input_vec[input_pos]]<<std::endl;
+			//fileOutput<<_parse_stack.top()<<"::="<<_parse_table[_parse_stack.top()][_input_vec[input_pos]]<<std::endl;
 						
 			//pop current non-terminal
 			_parse_stack.pop();			

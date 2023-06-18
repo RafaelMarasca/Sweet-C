@@ -4,7 +4,6 @@
 
 #include <iostream>
 
-
 int main(int argc, char **argv)
 {
 	if(argc != 2)
@@ -51,6 +50,8 @@ int main(int argc, char **argv)
 	{
 		std::cout<<"Compiled successfully!"<<std::endl;
 	}
+
+	d_tree->print();
 
 	return 0;
 }

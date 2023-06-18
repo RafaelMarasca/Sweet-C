@@ -22,7 +22,7 @@ struct Node
 	
 	std::vector<Node*> _children;
 	int _cur_child;
-    	Node *_father;
+    Node *_father;
     
 	Node(std::pair<std::string, std::string> val, Node *father, std::pair<int, int> pos)
 	{
@@ -53,10 +53,39 @@ struct Node
 		this->_children.push_back(child);	
 	}
 	
-	void annotate()
+	void print()
 	{
-	
+		std::ofstream fileOutput("parser_output.txt");
+		printHierarchy(this, 0, fileOutput);
+		fileOutput.close();
 	}
+
+	void printHierarchy(Node* n, int depth, std::ofstream& fileOutput)
+	{
+		std::vector<Node*>::iterator it;
+
+		for(int i = 0; i<(depth)*5; i++)
+		{
+			if(i%5 == 0)
+			{
+				fileOutput<<"|";
+			}else
+			{
+				fileOutput<<" ";
+			}
+		}
+
+		fileOutput<<"|";
+
+		for(int i = 0; i<4; i++)
+			fileOutput<<"-";
+		
+		fileOutput<<n->_value.first<<std::endl;
+
+
+		for(it = n->_children.begin(); it != n->_children.end(); it++)
+			printHierarchy(*it, depth+1, fileOutput);
+		}
 };
 
 class LL1
