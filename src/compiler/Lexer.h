@@ -1,14 +1,3 @@
-/**
- * @file Lexer.h
- * @author your name (you@domain.com)
- * @brief 
- * @version 0.1
- * @date 2023-04-23
- * 
- * @copyright Copyright (c) 2023
- * 
- */
-
 #include <exception>
 #include <string>
 #include <vector>
@@ -26,6 +15,7 @@
 #define BUFFER_SIZE 512
 
 #define INITIAL_STATE "s0"
+
 #define ACCEPTING_STATES {"WHOLE",\
                           "FRAC",\
                           "ID",\

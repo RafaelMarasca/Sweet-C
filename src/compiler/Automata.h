@@ -1,15 +1,3 @@
-/**
- * @file auto.h
- * @author your name (you@domain.com)
- * @brief 
- * @version 0.1
- * @date 2023-04-20
- * 
- * @copyright Copyright (c) 2023
- * 
- */
-
-
 #ifndef AUTOMATA_H_
 #define AUTOMATA_H_
 
