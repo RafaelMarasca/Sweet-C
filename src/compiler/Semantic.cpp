@@ -252,11 +252,79 @@ bool Semantic_analyzer::check_arglist(Node *no)
 
 bool Semantic_analyzer::check_return(Node *no)
 {
+	Node *rtrAux = no->_children[1];
+	std::string retype = _func_stack.top().second;	
+	std::string rhs_type = "";
+	
 	if(!_func_stack.empty())
 	{
 		_func_stack.pop();
 	}
 	
+	while(!rtrAux->_children.empty())
+	{	
+		Node *valAux = rtrAux->_children[0];
+		Node *valAuxValue = valAux->_children[0];
+		
+		if(valAux->_children.size() == 2)
+		{
+			if(valAux->_children[0]->_value.second != "MINUS" && valAux->_children[0]->_value.second != "NOT")
+			{
+				std::cout<<"SEMANTIC ERROR: expected unary operator before L:"<<valAux->_children[0]->_pos.first<<" C:"<<valAux->_children[0]->_pos.second<<std::endl;
+				return 0;
+			}
+			valAuxValue = valAux->_children[1];
+		}
+
+		if(valAuxValue)
+		{
+			std::pair<int, int> errpos = {0, 0};
+			if(valAuxValue->_children[0]->_value.first == "<var_value>")
+			{
+				Node *auxID = valAuxValue->_children[0]->_children[0]->_children[0]; 
+				
+				bool errflag = true; 
+				for(auto &cs : _context_stack)
+				{
+					if(cs.getSymbol(auxID->_value.second))
+					{
+						rhs_type = cs.getType(auxID->_value.second);
+						errpos = auxID->_pos;
+						errflag = false;
+						
+						break;	
+					}
+				}
+				if(errflag)
+				{
+					std::cout<<"SEMANTIC ERROR: undeclared variable '"<<auxID->_value.second<<"' before L:"<<auxID->_pos.first<<" C:"<<auxID->_pos.second<<std::endl;
+					return 0;
+				}
+			}
+			else if(valAuxValue->_children[0]->_value.first == "<con_value>")
+			{
+				Node *auxCon = valAuxValue->_children[0]->_children[0]->_children[0];
+				
+				if(auxCon->_value.first == "<int_con>")
+					rhs_type = "INT";
+				else if(auxCon->_value.first == "<float_con>")
+					rhs_type = "FLOAT";
+				else if(auxCon->_value.first == "<char_con>")
+					rhs_type = "CHAR";
+				else if(auxCon->_value.first == "<bool_con>")
+					rhs_type = "BOOL";
+					
+				errpos = auxCon->_children[0]->_pos;
+			}
+			if(rhs_type != retype)
+			{
+				std::cout<<"SEMANTIC ERROR: incompatible return type"<<" before L:"<<errpos.first<<" C:"<<errpos.second<<std::endl;
+				return 0;
+			}
+		}
+		rtrAux = rtrAux->_children[1]; 	
+	}
+		
 	if(_context_stack.size() > 1)
 	{
 		_context_stack.pop_back();

@@ -120,11 +120,12 @@ class Symbol
         token_type_t _token_type;
 
     public:
+        Symbol() : _lexeme(""), _lexeme_type(""), _token_type(TK_EOF){};
         Symbol(std::string lexeme, std::string lexeme_type, token_type_t token_type) : _lexeme(lexeme), _lexeme_type(lexeme_type), _token_type(token_type){};
-        ~Symbol(){};
+        ~Symbol(){/*std::cout<<"Deletando"<<std::endl;*/};
 
         std::string get_lexeme(){return _lexeme;};
-        std::string get_lexeme_type(){return _lexeme_type;};
+	std::string get_lexeme_type(){return _lexeme_type;};
 
         operator std::string() const {return std::string({std::string("<") + std::to_string(int(_token_type)) + std::string(",") + _lexeme  + std::string(",") + _lexeme_type + std::string(">")}); } 
 };  
@@ -150,25 +151,25 @@ struct token_t
 class SymbolTable
 {
     private:
-        std::unordered_map<std::string, Symbol*> _table;
+        std::unordered_map<std::string, Symbol> _table;
 
     public:
         
         SymbolTable(){};
         
-        ~SymbolTable()
-	{
-		/*for (const auto& entry : _table)
-		{
-			delete entry.second;
-		}
-		_table.clear();*/
-	}
-        Symbol* addSymbol(Symbol& s)
+        ~SymbolTable(){
+        	for (auto& entry : _table) {
+                //std::cout<< "deletando "<<std::string(*entry.second) <<std::endl;
+                //delete entry.second;
+            }       
+            _table.clear();
+        };
+
+        Symbol addSymbol(Symbol& s)
         {
             if(_table.find(s.get_lexeme()) == _table.end())
             {
-                _table[s.get_lexeme()] = new Symbol(s);
+                _table[s.get_lexeme()] = Symbol(s);
             }
 
             return _table[s.get_lexeme()];
@@ -183,16 +184,17 @@ class SymbolTable
         {
         	if(_table.find(lex) != _table.end())
         	{
-        		return _table[lex]->get_lexeme_type();
+        		return _table[lex].get_lexeme_type();
         	}
         
         	return "";
         }
 
+
         friend std::ostream & operator << (std::ostream &out, const SymbolTable &s)
         {
             for(auto it = s._table.begin(); it != s._table.end(); it++)
-                out << std::string(*(it->second)) << std::endl;
+                out << std::string((it->second)) << std::endl;
             return out;
         }
 };

@@ -1,17 +1,15 @@
+func print() int{
+	int h = 9;
+	
+	return 5;
+}
+
 func main( int a; int b; int c; int d; ) int{
 #123
 #44445.44
-	int a = 9;
-	int b = a + 1;
-	bool c = a and b;
-	char d;
-	
-	bool k = a;
-	bool p = h;
-	
-	char d;
-	bool c = 1;
-	k = 0;
+	int g = 9;
+	int h = a + 1;
+	bool k;# = a and b;
 	
 	select a{
 		when b{
@@ -19,8 +17,8 @@ func main( int a; int b; int c; int d; ) int{
 		};
 		otherwise{
 			a = 5;
-			a = 6 + true + j;
+			#a = 6 + true + j;
 		};
 	};
-	return 0;
+	return k;
 }
