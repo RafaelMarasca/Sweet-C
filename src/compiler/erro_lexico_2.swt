@@ -1,0 +1,8 @@
+func main() int{
+    # Isso eh um comentario
+    int variavel_muito_grandeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee = 9;
+    int b = a + 1;
+    bool c = a and b;
+
+    return 0;
+}

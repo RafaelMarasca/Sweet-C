@@ -1,0 +1,8 @@
+func main() int{
+    # Isso eh um comentario
+    int a = 9;
+    int b = a + 1;
+    bool c = a and b;
+    
+    return 0.0.0;
+}
