@@ -30,11 +30,12 @@ LL1::~LL1()
     	delete _parse_tree;
 }
 
-bool LL1::parse(std::vector<token_t> token_str)
+Node* LL1::parse(std::vector<token_t> token_str)
 {
 	for(auto tk : token_str)
 	{
 		_input_vec.push_back(token_to_string(tk.token_type));
+		_input_val.push_back(tk.value);
 		_input_pos.push_back({tk.line, tk.column});
 	}
 	
@@ -44,7 +45,7 @@ bool LL1::parse(std::vector<token_t> token_str)
 	
 	//push starting nonterminal into the parsing stack
 	_parse_stack.push("<program>");
-	_parse_tree = new Node({"<program>", ""}, _parse_tree);
+	_parse_tree = new Node({"<program>", ""}, _parse_tree, {0, 0});
 	Node *aux_next_node = _parse_tree;
 	
 	int input_pos = 0;
@@ -63,9 +64,19 @@ bool LL1::parse(std::vector<token_t> token_str)
 			{
 				_parse_stack.pop();
 				
+				aux_next_node->_value.second = _input_val[input_pos];
+				aux_next_node->_pos = _input_pos[input_pos];
+				//std::cout<<"////////////////"<<aux_next_node->_value.first<<";;;;;;;;;;;"<<_input_vec[input_pos]<<std::endl;
+				
 				if(aux_next_node)
 				{
-					aux_next_node = aux_next_node->_father;
+					while(aux_next_node && aux_next_node->_children.size() <= aux_next_node->_cur_child)
+					{
+						aux_next_node = aux_next_node->_father;
+					}
+		
+					if(aux_next_node)					
+						aux_next_node = aux_next_node->_children[aux_next_node->_cur_child++];
 				}
 				
 				if(input_pos < _input_vec.size())
@@ -73,10 +84,11 @@ bool LL1::parse(std::vector<token_t> token_str)
 			}
 			//error if not matched
 			else
-			{	
+			{				
 				parse_success = false;
-				std::cout<<"Syntax error: missing '"<<_parse_stack.top()<<"' before L:"<<_input_pos[input_pos].first<<" C:"<<_input_pos[input_pos].second<<"."<<std::endl;
+				std::cout<<"SYNTAX ERROR: missing '"<<_parse_stack.top()<<"' before L:"<<_input_pos[input_pos].first<<" C:"<<_input_pos[input_pos].second<<"."<<std::endl;
 				_parse_stack.pop();
+				
 				
 				if(aux_next_node && !aux_next_node->_children.empty() && aux_next_node->_children.size() > aux_next_node->_cur_child+1)
 				{
@@ -131,18 +143,33 @@ bool LL1::parse(std::vector<token_t> token_str)
 			{
 				for(auto d : aux_vec)
 				{
-					aux_next_node->insert({d, ""}, aux_next_node);
+					std::string straux = ""; //d[0] != '<' ? d : "";	
+					aux_next_node->insert({d, straux}, aux_next_node, {0, 0});
 				}
+				
+				//std::cout<<aux_next_node->_value.first<<"------>";
+				for(auto nd : aux_next_node->_children)
+				{
+				//	std::cout<<"#"<<nd->_value.first<<" ";	
+				}
+				//std::cout<<std::endl;
 			}
 			
 			//next step on parse tree or go back to parent
 			if(aux_next_node && !aux_next_node->_children.empty() && aux_next_node->_children.size() > aux_next_node->_cur_child)
 			{
 				aux_next_node = aux_next_node->_children[aux_next_node->_cur_child++];
+				//std::cout<<"::::::"<<aux_next_node->_value.first<<";;;;;;;;;;"<<_parse_stack.top()<<std::endl;
 			}
 			else
 			{
-				aux_next_node = aux_next_node->_father;
+				while(aux_next_node && aux_next_node->_children.size() <= aux_next_node->_cur_child)
+				{
+					aux_next_node = aux_next_node->_father;
+				}
+				
+				if(aux_next_node)
+					aux_next_node = aux_next_node->_children[aux_next_node->_cur_child++];
 			}
 	
 		}
@@ -150,7 +177,8 @@ bool LL1::parse(std::vector<token_t> token_str)
 		else if(_parse_table[_parse_stack.top()][_input_vec[input_pos]] == "-")
 		{
 			parse_success = false;
-			std::cout<<"Syntax error: "<<_parse_table_error[_parse_stack.top()]<<" before L:"<<_input_pos[input_pos].first<<" C:"<<_input_pos[input_pos].second<<"."<<std::endl;
+			std::cout<<"SYNTAX ERROR: "<<_parse_table_error[_parse_stack.top()]<<" before L:"<<_input_pos[input_pos].first<<" C:"<<_input_pos[input_pos].second<<"."<<std::endl;
+			std::cout<<_parse_stack.top()<<"//////////////"<<_input_vec[input_pos]<<std::endl;
 			
 			// Try to find synchronizing token then pop nonterminal
 			bool sync_matched = false;
@@ -187,6 +215,5 @@ bool LL1::parse(std::vector<token_t> token_str)
 			}
 		}	
 	}
-	
-	return parse_success;
+	return parse_success ? this->_parse_tree : nullptr; 
 }

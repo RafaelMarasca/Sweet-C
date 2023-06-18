@@ -1,5 +1,7 @@
 #include "Lexer.h"
 #include "parser.h"
+#include "Semantic.h"
+
 #include <iostream>
 
 
@@ -11,9 +13,10 @@ int main(int argc, char **argv)
 		return 0;
 	}
 	
-	bool comp = false;
+	Node *d_tree = nullptr;
 	Lexer l(argv[1]);
 	LL1 prs;
+	
 
 	try
 	{
@@ -21,7 +24,12 @@ int main(int argc, char **argv)
 		
 		if(!token_str.empty())
 		{
-			comp = prs.parse(token_str);
+			d_tree = prs.parse(token_str);
+		
+			Semantic_analyzer sem(d_tree);
+			
+			sem.tree_traverse();
+		
 		}
 	
 	}
@@ -32,8 +40,8 @@ int main(int argc, char **argv)
 	}
 	
 	
-	if(comp)
-		std::cout<<"Compiled Successfully!"<<std::endl;
+	//if(d_tree)
+	//	std::cout<<"Compiled Successfully!"<<std::endl;
 
 	return 0;
 }

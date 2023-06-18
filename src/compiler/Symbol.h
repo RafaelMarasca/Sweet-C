@@ -116,16 +116,16 @@ class Symbol
 {
     private:
         std::string _lexeme;
-        std::string _scope;
+        std::string _lexeme_type;
         token_type_t _token_type;
 
     public:
-        Symbol(std::string lexeme, std::string scope, token_type_t token_type) : _lexeme(lexeme), _scope(scope), _token_type(token_type){};
+        Symbol(std::string lexeme, std::string lexeme_type, token_type_t token_type) : _lexeme(lexeme), _lexeme_type(lexeme_type), _token_type(token_type){};
         ~Symbol(){};
 
         std::string get_lexeme(){return _lexeme;};
 
-        operator std::string() const {return std::string({std::string("<") + std::to_string(int(_token_type)) + std::string(",") + _lexeme  + std::string(",") + _scope + std::string(">")}); } 
+        operator std::string() const {return std::string({std::string("<") + std::to_string(int(_token_type)) + std::string(",") + _lexeme  + std::string(",") + _lexeme_type + std::string(">")}); } 
 };  
 
 struct token_t
@@ -154,7 +154,14 @@ class SymbolTable
     public:
         
         SymbolTable(){};
-        ~SymbolTable(){ for(auto it = _table.begin(); it != _table.end(); it++){delete it->second;}};
+        
+        ~SymbolTable(){
+        	/*for(auto it = _table.begin(); it != _table.end(); it++)
+        	{ 
+        		delete it->second;
+        		it = _table.erase(it);
+        	}*/
+        };
 
         Symbol* addSymbol(Symbol& s)
         {
@@ -164,6 +171,11 @@ class SymbolTable
             }
 
             return _table[s.get_lexeme()];
+        }
+        
+        bool getSymbol(std::string lex)
+        {
+        	return _table.find(lex) != _table.end();
         }
 
         friend std::ostream & operator << (std::ostream &out, const SymbolTable &s)

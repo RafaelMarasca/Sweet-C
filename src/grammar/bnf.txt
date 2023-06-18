@@ -13,7 +13,7 @@
 <arg_list> 	::= <de> <arg_list'>
 		  | $
 
-<arg_list'>	::= TK_COMMA <de> <arg_list'> 
+<arg_list'>	::= <de> <arg_list'> 
 		  | $
 
 <scope_block>	::= TK_START_SCOPE <scope_block'> TK_END_SCOPE
@@ -26,7 +26,7 @@
 		  
 <de>		::= <type> TK_ID <finition> TK_SEMICOLON
 		  
-<finition>	::= TK_ASSIGNMENT <value> <rhs>
+<finition>	::= TK_ASSIGNMENT <rhs>
  		  | $
  		 
 <statement>	::= <iteration_statement> TK_SEMICOLON

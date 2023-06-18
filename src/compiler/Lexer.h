@@ -180,8 +180,6 @@ class Lexer
         int _current_line;
         int _current_col;
 
-        SymbolTable _symbol_table;
-
         std::unordered_map<std::string, token_t> _token_return;
         std::unordered_map<std::string, token_t> _keywords;
 

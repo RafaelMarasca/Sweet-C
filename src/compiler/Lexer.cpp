@@ -91,7 +91,7 @@ std::vector<token_t> Lexer::getTokenString()
                 continue;
             }
 
-            if(_line_buffer[_current_index] == '!')
+            if(_line_buffer[_current_index] == '@')
             {
                 skip = !skip;
                 _current_index++;
