@@ -1,0 +1,8 @@
+func main() int{
+    # Isso eh um comentario
+    int a = 9;    
+ 
+    int c = a * 3;
+    
+    return true;
+}

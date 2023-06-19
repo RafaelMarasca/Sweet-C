@@ -1,0 +1,9 @@
+func main() int{
+    # Isso eh um comentario
+    int a = 9;
+    int b = 3;
+    
+    int c = a + b
+    
+    return 0;
+}

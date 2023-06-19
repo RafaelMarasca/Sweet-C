@@ -86,7 +86,7 @@ Node* LL1::parse(std::vector<token_t> token_str)
 			else
 			{				
 				parse_success = false;
-				std::cout<<"SYNTAX ERROR: missing '"<<_parse_stack.top()<<"' before L:"<<_input_pos[input_pos].first<<" C:"<<_input_pos[input_pos].second<<"."<<std::endl;
+				std::cout<<"SYNTAX ERROR: missing '"<<token_string_to_value(_parse_stack.top())<<"' before L:"<<_input_pos[input_pos].first<<" C:"<<_input_pos[input_pos].second<<"."<<std::endl;
 				_parse_stack.pop();
 				
 				
@@ -178,7 +178,7 @@ Node* LL1::parse(std::vector<token_t> token_str)
 		{
 			parse_success = false;
 			std::cout<<"SYNTAX ERROR: "<<_parse_table_error[_parse_stack.top()]<<" before L:"<<_input_pos[input_pos].first<<" C:"<<_input_pos[input_pos].second<<"."<<std::endl;
-			std::cout<<_parse_stack.top()<<"//////////////"<<_input_vec[input_pos]<<std::endl;
+			//std::cout<<_parse_stack.top()<<"//////////////"<<_input_vec[input_pos]<<std::endl;
 			
 			// Try to find synchronizing token then pop nonterminal
 			bool sync_matched = false;

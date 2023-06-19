@@ -52,12 +52,12 @@ int main(int argc, char **argv)
 			
 			d_tree = prs.parse(token_str);
 		
-			if(d_tree)
+			/*if(d_tree)
 			{
 				Semantic_analyzer sem(d_tree);
 				
 				notsemerror = sem.tree_traverse();
-			}
+			}*/
 		}
 	
 	}
@@ -70,9 +70,9 @@ int main(int argc, char **argv)
 	if(d_tree && notsemerror)
 	{
 		std::cout<<"Compiled successfully!"<<std::endl;
+		
+		d_tree->print();
 	}
-
-	d_tree->print();
 
 	return 0;
 }

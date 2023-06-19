@@ -100,6 +100,38 @@ static std::string token_to_string(token_type_t tk)
     return "";
 }
 
+static std::string token_string_to_value(std::string s)
+{
+        if(s == "TK_ID") {return "identifier";}
+	else if (s == "TK_WHOLE") {return "integer";}
+	else if (s == "TK_FRAC") {return "float";}
+	else if (s == "TK_WHITE") {return "whitespace";}
+	else if (s == "TK_LOGOP") {return "logical operator";}
+	else if (s == "TK_LOGVAL") {return "boolean constant";}
+	else if (s == "TK_RELOP") {return "relational operator";}
+	else if (s == "TK_ARITH") {return "arithmetic operator";}
+	else if (s == "TK_TYPE") {return "type name";}
+	else if (s == "TK_FUNC") {return "func keyword";}
+	else if (s == "TK_SELECT") {return "select keyword";}
+	else if (s == "TK_WHEN") {return "when keyword";}
+	else if (s == "TK_OTHERWISE") {return "otherwise keyword";}
+	else if (s == "TK_FOR") {return "for keyword";}
+	else if (s == "TK_LPAR") {return "(";}
+	else if (s == "TK_RPAR") {return ")";}
+	else if (s == "TK_START_SCOPE") {return "{";}
+	else if (s == "TK_END_SCOPE") {return "}";}
+	else if (s == "TK_SEMICOLON") {return ";";}
+	else if (s == "TK_COLON") {return ":";}
+	else if (s == "TK_COMMA") {return ",";}
+	else if (s == "TK_ASSIGNMENT") {return "=";}
+	else if (s == "TK_CHAR") {return "char constant";}
+	else if (s == "TK_RETURN") {return "return keyword";}
+	else if (s == "TK_ARROW") {return "->";}
+        else if (s == "TK_EOF") {return "$";}
+    
+	return "token";
+}
+
 
 class Symbol
 {
